@@ -6,9 +6,10 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.example.starwarsencyclopedia.data.local.PersonEntity
+import com.example.starwarsencyclopedia.data.local.people.PersonEntity
 import com.example.starwarsencyclopedia.data.local.StarWarsDatabase
 import com.example.starwarsencyclopedia.data.remote.StarWarsApi
+import com.example.starwarsencyclopedia.data.util.toEntity
 
 private const val FIRST_PAGE_INDEX = 1
 

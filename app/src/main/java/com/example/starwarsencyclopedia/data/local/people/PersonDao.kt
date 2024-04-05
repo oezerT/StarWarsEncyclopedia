@@ -1,4 +1,4 @@
-package com.example.starwarsencyclopedia.data.local
+package com.example.starwarsencyclopedia.data.local.people
 
 import androidx.paging.PagingSource
 import androidx.room.Dao

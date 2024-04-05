@@ -1,4 +1,4 @@
-package com.example.starwarsencyclopedia.presentation.view
+package com.example.starwarsencyclopedia.presentation.view.people
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -84,7 +84,11 @@ fun PeopleListPreview() {
     PeopleList(
         flowOf(
             PagingData.from(
-                data = peoplePreviewList,
+                data = listOf(
+                    lukeSkywalker,
+                    lukeSkywalker,
+                    lukeSkywalker
+                ),
                 sourceLoadStates = LoadStates(
                     refresh = LoadState.NotLoading(true),
                     append = LoadState.NotLoading(true),
@@ -94,9 +98,3 @@ fun PeopleListPreview() {
         ).collectAsLazyPagingItems()
     )
 }
-
-private val peoplePreviewList = listOf(
-    LukeSkywalker,
-    LukeSkywalker,
-    LukeSkywalker
-)

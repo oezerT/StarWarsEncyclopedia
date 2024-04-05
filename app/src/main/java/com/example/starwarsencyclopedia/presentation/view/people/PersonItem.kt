@@ -1,4 +1,4 @@
-package com.example.starwarsencyclopedia.presentation.view
+package com.example.starwarsencyclopedia.presentation.view.people
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,10 +32,10 @@ fun PersonItem(person: Person) {
 @Composable
 @Preview
 fun PersonItemPreview() {
-    PersonItem(person = LukeSkywalker)
+    PersonItem(person = lukeSkywalker)
 }
 
-val LukeSkywalker = Person(
+val lukeSkywalker = Person(
     name = "Luke Skywalker",
     height = "172",
     mass = "77",

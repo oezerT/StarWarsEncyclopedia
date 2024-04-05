@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.starwarsencyclopedia.presentation.StarWarsEncyclopediaViewModel
 import com.example.starwarsencyclopedia.presentation.view.films.FilmsList
+import com.example.starwarsencyclopedia.presentation.view.people.PeopleList
 
 
 @Composable

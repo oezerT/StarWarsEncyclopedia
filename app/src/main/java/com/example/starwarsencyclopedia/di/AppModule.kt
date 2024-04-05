@@ -6,7 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.example.starwarsencyclopedia.data.FilmRemoteMediator
-import com.example.starwarsencyclopedia.data.local.PersonEntity
+import com.example.starwarsencyclopedia.data.local.people.PersonEntity
 import com.example.starwarsencyclopedia.data.local.StarWarsDatabase
 import com.example.starwarsencyclopedia.data.PeopleRemoteMediator
 import com.example.starwarsencyclopedia.data.local.films.FilmEntity

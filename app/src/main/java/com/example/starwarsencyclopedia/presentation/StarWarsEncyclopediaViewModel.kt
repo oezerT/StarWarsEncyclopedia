@@ -6,8 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.starwarsencyclopedia.data.local.films.FilmEntity
-import com.example.starwarsencyclopedia.data.local.PersonEntity
-import com.example.starwarsencyclopedia.data.toDomain
+import com.example.starwarsencyclopedia.data.local.people.PersonEntity
 import com.example.starwarsencyclopedia.data.util.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
