@@ -3,17 +3,11 @@ package com.example.starwarsencyclopedia
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.starwarsencyclopedia.presentation.StarWarsEncyclopediaViewModel
-import com.example.starwarsencyclopedia.ui.theme.StarWarsEncyclopediaTheme
+import com.example.starwarsencyclopedia.presentation.view.PeopleList
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,28 +17,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             val viewModel: StarWarsEncyclopediaViewModel = viewModel()
             val peopleData = viewModel.peoplePagingFlow.collectAsLazyPagingItems()
-            StarWarsEncyclopediaTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("Android")
-                }
+            MaterialTheme {
+                PeopleList(peopleData)
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    StarWarsEncyclopediaTheme {
-        Greeting("Android")
     }
 }

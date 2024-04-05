@@ -14,7 +14,4 @@ data class PersonEntity(
     var eyeColor: String,
     var birthYear: String,
     var gender: String,
-    var homeworld: String,
-    var created: String,
-    var edited: String,
 )

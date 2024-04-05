@@ -14,13 +14,9 @@ fun PersonDto.toEntity() = PersonEntity(
     eyeColor = eyeColor,
     birthYear = birthYear,
     gender = gender,
-    homeworld = homeworld,
-    created = created,
-    edited = edited
 )
 
 fun PersonEntity.toDomain() = Person(
-    url = url,
     name = name,
     height = height,
     mass = mass,
@@ -29,5 +25,4 @@ fun PersonEntity.toDomain() = Person(
     eyeColor = eyeColor,
     birthYear = birthYear,
     gender = gender,
-    homeworld = homeworld,
 )
