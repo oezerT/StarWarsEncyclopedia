@@ -1,5 +1,6 @@
 package com.example.starwarsencyclopedia.data.remote
 
+import com.example.starwarsencyclopedia.data.remote.films.FilmsResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,4 +11,8 @@ interface StarWarsApi {
         @Query("page") page: Int
     ): PeopleResponse
 
+    @GET("films")
+    suspend fun getFilms(
+        @Query("page") page: Int
+    ): FilmsResponse
 }

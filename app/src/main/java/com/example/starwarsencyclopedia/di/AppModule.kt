@@ -5,9 +5,11 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.room.Room
+import com.example.starwarsencyclopedia.data.FilmRemoteMediator
 import com.example.starwarsencyclopedia.data.local.PersonEntity
 import com.example.starwarsencyclopedia.data.local.StarWarsDatabase
 import com.example.starwarsencyclopedia.data.PeopleRemoteMediator
+import com.example.starwarsencyclopedia.data.local.films.FilmEntity
 import com.example.starwarsencyclopedia.data.remote.StarWarsApi
 import dagger.Module
 import dagger.Provides
@@ -69,6 +71,26 @@ object AppModule {
             ),
             pagingSourceFactory = {
                 starWarsDb.personDao.pagingSource()
+            }
+        )
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    @Provides
+    fun provideFilmsPager(
+        starWarsDb: StarWarsDatabase,
+        starWarsApi: StarWarsApi
+    ): Pager<Int, FilmEntity> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = SWAPI_PAGE_SIZE
+            ),
+            remoteMediator = FilmRemoteMediator(
+                starWarsDb = starWarsDb,
+                starWarsApi = starWarsApi
+            ),
+            pagingSourceFactory = {
+                starWarsDb.filmDao.pagingSource()
             }
         )
     }
