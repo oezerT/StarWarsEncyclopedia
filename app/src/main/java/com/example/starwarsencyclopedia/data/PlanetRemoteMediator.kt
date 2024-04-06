@@ -1,6 +1,5 @@
 package com.example.starwarsencyclopedia.data
 
-import android.net.Uri
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -8,6 +7,7 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.starwarsencyclopedia.data.local.StarWarsDatabase
 import com.example.starwarsencyclopedia.data.local.planets.PlanetEntity
+import com.example.starwarsencyclopedia.data.local.remoteKeys.RemoteKeyEntity
 import com.example.starwarsencyclopedia.data.remote.StarWarsApi
 import com.example.starwarsencyclopedia.data.util.toEntity
 
@@ -29,16 +29,15 @@ class PlanetRemoteMediator(
                 )
 
                 LoadType.APPEND -> {
-                    val lastItemId = state.lastItemOrNull()?.url?.let {
-                        Uri.parse(it).lastPathSegment?.toInt()
-                    }
-                    if (lastItemId == null) {
-                        return MediatorResult.Success(
-                            endOfPaginationReached = true
+                    val remoteKey = starWarsDb.withTransaction {
+                        starWarsDb.remoteKeyDao.remoteKeyByCategory(
+                            category = RemoteKeyEntity.Category.PLANETS
                         )
-                    } else {
-                        (lastItemId / state.config.pageSize) + 1
                     }
+
+                    remoteKey.nextKey ?: return MediatorResult.Success(
+                        endOfPaginationReached = true
+                    )
                 }
             }
 
@@ -47,8 +46,18 @@ class PlanetRemoteMediator(
             )
 
             starWarsDb.withTransaction {
-                if (loadType == LoadType.REFRESH)
+                if (loadType == LoadType.REFRESH) {
+                    starWarsDb.remoteKeyDao.deleteByCategory(
+                        category = RemoteKeyEntity.Category.PLANETS
+                    )
                     starWarsDb.planetDao.clearAll()
+                }
+                starWarsDb.remoteKeyDao.insertOrReplace(
+                    RemoteKeyEntity(
+                        category = RemoteKeyEntity.Category.PLANETS,
+                        nextKey = currentPage.inc().takeIf { planets.next != null }
+                    )
+                )
 
                 val planetEntities = planets.results.map {
                     it.toEntity()
