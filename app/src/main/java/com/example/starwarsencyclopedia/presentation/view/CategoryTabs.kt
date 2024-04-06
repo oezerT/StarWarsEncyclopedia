@@ -10,10 +10,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.starwarsencyclopedia.presentation.StarWarsEncyclopediaViewModel
-import com.example.starwarsencyclopedia.presentation.view.films.FilmsList
-import com.example.starwarsencyclopedia.presentation.view.people.PeopleList
 
 
 @Composable
@@ -21,9 +20,10 @@ fun CategoryTabs() {
     val viewModel: StarWarsEncyclopediaViewModel = viewModel()
     val peopleData = viewModel.peoplePagingFlow.collectAsLazyPagingItems()
     val filmsData = viewModel.filmsPagingFlow.collectAsLazyPagingItems()
+    val planetsData = viewModel.planetsPagingFlow.collectAsLazyPagingItems()
 
     var state by remember { mutableIntStateOf(0) }
-    val titles = listOf("Films", "People")
+    val titles = listOf("Films", "People", "Planets")
     Column {
         TabRow(selectedTabIndex = state) {
             titles.forEachIndexed { index, title ->
@@ -34,9 +34,11 @@ fun CategoryTabs() {
                 )
             }
         }
+
         when (state) {
-            0 -> FilmsList(films = filmsData)
-            1 -> PeopleList(people = peopleData)
+            0 -> CategoryList(category = filmsData as LazyPagingItems<Any>)
+            1 -> CategoryList(category = peopleData as LazyPagingItems<Any>)
+            2 -> CategoryList(category = planetsData as LazyPagingItems<Any>)
         }
     }
 }

@@ -6,10 +6,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.example.starwarsencyclopedia.data.FilmRemoteMediator
-import com.example.starwarsencyclopedia.data.local.people.PersonEntity
-import com.example.starwarsencyclopedia.data.local.StarWarsDatabase
 import com.example.starwarsencyclopedia.data.PeopleRemoteMediator
+import com.example.starwarsencyclopedia.data.PlanetRemoteMediator
+import com.example.starwarsencyclopedia.data.local.StarWarsDatabase
 import com.example.starwarsencyclopedia.data.local.films.FilmEntity
+import com.example.starwarsencyclopedia.data.local.people.PersonEntity
+import com.example.starwarsencyclopedia.data.local.planets.PlanetEntity
 import com.example.starwarsencyclopedia.data.remote.StarWarsApi
 import dagger.Module
 import dagger.Provides
@@ -27,6 +29,7 @@ private const val SWAPI_BASE_URL = "https://swapi.dev/api/"
 private const val SWAPI_PAGE_SIZE = 10
 private const val DB_NAME = "starwars.db"
 
+@OptIn(ExperimentalPagingApi::class)
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -55,7 +58,6 @@ object AppModule {
         ).build()
     }
 
-    @OptIn(ExperimentalPagingApi::class)
     @Provides
     fun providePeoplesPager(
         starWarsDb: StarWarsDatabase,
@@ -75,7 +77,6 @@ object AppModule {
         )
     }
 
-    @OptIn(ExperimentalPagingApi::class)
     @Provides
     fun provideFilmsPager(
         starWarsDb: StarWarsDatabase,
@@ -91,6 +92,25 @@ object AppModule {
             ),
             pagingSourceFactory = {
                 starWarsDb.filmDao.pagingSource()
+            }
+        )
+    }
+
+    @Provides
+    fun providePlanetsPager(
+        starWarsDb: StarWarsDatabase,
+        starWarsApi: StarWarsApi
+    ): Pager<Int, PlanetEntity> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = SWAPI_PAGE_SIZE
+            ),
+            remoteMediator = PlanetRemoteMediator(
+                starWarsDb = starWarsDb,
+                starWarsApi = starWarsApi
+            ),
+            pagingSourceFactory = {
+                starWarsDb.planetDao.pagingSource()
             }
         )
     }

@@ -1,4 +1,4 @@
-package com.example.starwarsencyclopedia.presentation.view.people
+package com.example.starwarsencyclopedia.presentation.view
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -20,14 +20,20 @@ import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.starwarsencyclopedia.domain.model.Film
 import com.example.starwarsencyclopedia.domain.model.Person
+import com.example.starwarsencyclopedia.domain.model.Planet
+import com.example.starwarsencyclopedia.presentation.view.films.FilmItem
+import com.example.starwarsencyclopedia.presentation.view.people.PersonItem
+import com.example.starwarsencyclopedia.presentation.view.people.lukeSkywalker
+import com.example.starwarsencyclopedia.presentation.view.planets.PlanetItem
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
-fun PeopleList(
-    people: LazyPagingItems<Person>
+fun CategoryList(
+    category: LazyPagingItems<Any>
 ) {
-    (people.loadState.refresh as? LoadState.Error)?.error?.message?.let {
+    (category.loadState.refresh as? LoadState.Error)?.error?.message?.let {
         ErrorToast(it)
     }
 
@@ -36,7 +42,7 @@ fun PeopleList(
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
     ) {
-        if (people.loadState.refresh is LoadState.Loading) {
+        if (category.loadState.refresh is LoadState.Loading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
             )
@@ -47,17 +53,21 @@ fun PeopleList(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 contentPadding = PaddingValues(15.dp)
             ) {
-                items(count = people.itemCount) { index ->
-                    val item = people[index]
+                items(
+                    count = category.itemCount,
+                ) { index ->
+                    val item = category[index]
                     item?.let {
-                        PersonItem(
-                            person = it
-                        )
+                        when (it) {
+                            is Film -> FilmItem(film = it)
+                            is Person -> PersonItem(person = it)
+                            is Planet -> PlanetItem(planet = it)
+                        }
                     }
                 }
 
                 item {
-                    if (people.loadState.append is LoadState.Loading) {
+                    if (category.loadState.append is LoadState.Loading) {
                         CircularProgressIndicator(
                             modifier = Modifier.align(Alignment.Center)
                         )
@@ -80,8 +90,8 @@ private fun ErrorToast(errorMessage: String) {
 
 @Composable
 @Preview
-fun PeopleListPreview() {
-    PeopleList(
+fun CategoryListPreview() {
+    CategoryList(
         flowOf(
             PagingData.from(
                 data = listOf(
@@ -95,6 +105,6 @@ fun PeopleListPreview() {
                     prepend = LoadState.NotLoading(true),
                 ),
             )
-        ).collectAsLazyPagingItems()
+        ).collectAsLazyPagingItems() as LazyPagingItems<Any>
     )
 }
