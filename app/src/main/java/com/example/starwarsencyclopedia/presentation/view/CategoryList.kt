@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun CategoryList(
-    category: LazyPagingItems<Any>
+    category: LazyPagingItems<*>
 ) {
     (category.loadState.refresh as? LoadState.Error)?.error?.message?.let {
         ErrorToast(it)
@@ -105,6 +105,6 @@ fun CategoryListPreview() {
                     prepend = LoadState.NotLoading(true),
                 ),
             )
-        ).collectAsLazyPagingItems() as LazyPagingItems<Any>
+        ).collectAsLazyPagingItems() as LazyPagingItems<*>
     )
 }

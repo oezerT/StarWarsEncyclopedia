@@ -36,9 +36,9 @@ fun CategoryTabs() {
         }
 
         when (state) {
-            0 -> CategoryList(category = filmsData as LazyPagingItems<Any>)
-            1 -> CategoryList(category = peopleData as LazyPagingItems<Any>)
-            2 -> CategoryList(category = planetsData as LazyPagingItems<Any>)
+            0 -> CategoryList(category = filmsData as LazyPagingItems<*>)
+            1 -> CategoryList(category = peopleData as LazyPagingItems<*>)
+            2 -> CategoryList(category = planetsData as LazyPagingItems<*>)
         }
     }
 }

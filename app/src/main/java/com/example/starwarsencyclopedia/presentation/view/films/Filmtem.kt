@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +19,7 @@ fun FilmItem(film: Film) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(15.dp)) {
             Text(text = film.title, style = MaterialTheme.typography.titleMedium)
-            Divider(modifier = Modifier.padding(vertical = 5.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 5.dp))
             Text(text = "Episode: ${film.episodeId}")
             Text(text = "Release Date: ${film.releaseDate}")
             Text(text = "Director: ${film.director}")
