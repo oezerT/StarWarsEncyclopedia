@@ -5,8 +5,8 @@ import kotlinx.serialization.SerialName
 
 @Serializable
 data class PeopleResponse(
-    @SerialName("count") var count: Int,
-    @SerialName("next") var next: String? = null,
-    @SerialName("previous") var previous: String? = null,
-    @SerialName("results") var results: List<PersonDto> = emptyList()
+    @SerialName("count") val count: Int,
+    @SerialName("next") val next: String? = null,
+    @SerialName("previous") val previous: String? = null,
+    @SerialName("results") val results: List<PersonDto> = emptyList()
 )

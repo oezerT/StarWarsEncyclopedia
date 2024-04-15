@@ -5,19 +5,19 @@ import androidx.room.PrimaryKey
 
 @Entity
 sealed class CategoryEntity(
-    @PrimaryKey open var url: String,
+    @PrimaryKey open val url: String,
 ) {
 
     data class PlanetEntity(
-        @PrimaryKey override var url: String,
-        var name: String,
-        var rotationPeriod: String,
-        var orbitalPeriod: String,
-        var diameter: String,
-        var climate: String,
-        var gravity: String,
-        var terrain: String,
-        var surfaceWater: String,
-        var population: String,
+        @PrimaryKey override val url: String,
+        val name: String,
+        val rotationPeriod: String,
+        val orbitalPeriod: String,
+        val diameter: String,
+        val climate: String,
+        val gravity: String,
+        val terrain: String,
+        val surfaceWater: String,
+        val population: String,
     ) : CategoryEntity(url)
 }

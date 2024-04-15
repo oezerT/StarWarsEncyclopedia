@@ -5,11 +5,11 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class FilmEntity(
-    @PrimaryKey var url: String,
-    var title: String,
-    var episodeId: Int,
-    var openingCrawl: String,
-    var director: String,
-    var producer: String,
-    var releaseDate: String,
+    @PrimaryKey val url: String,
+    val title: String,
+    val episodeId: Int,
+    val openingCrawl: String,
+    val director: String,
+    val producer: String,
+    val releaseDate: String,
 )

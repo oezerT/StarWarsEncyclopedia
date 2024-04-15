@@ -1,13 +1,13 @@
 package com.example.starwarsencyclopedia.domain.model
 
 data class Planet(
-    var name: String,
-    var rotationPeriod: String,
-    var orbitalPeriod: String,
-    var diameter: String,
-    var climate: String,
-    var gravity: String,
-    var terrain: String,
-    var surfaceWater: String,
-    var population: String,
+    val name: String,
+    val rotationPeriod: String,
+    val orbitalPeriod: String,
+    val diameter: String,
+    val climate: String,
+    val gravity: String,
+    val terrain: String,
+    val surfaceWater: String,
+    val population: String,
 )

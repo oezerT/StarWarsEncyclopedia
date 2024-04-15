@@ -1,10 +1,10 @@
 package com.example.starwarsencyclopedia.domain.model
 
 data class Film(
-    var title: String,
-    var episodeId: Int,
-    var openingCrawl: String,
-    var director: String,
-    var producer: String,
-    var releaseDate: String,
+    val title: String,
+    val episodeId: Int,
+    val openingCrawl: String,
+    val director: String,
+    val producer: String,
+    val releaseDate: String,
 )

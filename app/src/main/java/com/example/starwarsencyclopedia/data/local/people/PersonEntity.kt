@@ -5,13 +5,13 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class PersonEntity(
-    @PrimaryKey var url: String,
-    var name: String,
-    var height: String,
-    var mass: String,
-    var hairColor: String,
-    var skinColor: String,
-    var eyeColor: String,
-    var birthYear: String,
-    var gender: String,
+    @PrimaryKey val url: String,
+    val name: String,
+    val height: String,
+    val mass: String,
+    val hairColor: String,
+    val skinColor: String,
+    val eyeColor: String,
+    val birthYear: String,
+    val gender: String,
 )
