@@ -1,4 +1,4 @@
-package com.example.starwarsencyclopedia.presentation.view.films
+package com.example.starwarsencyclopedia.presentation.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

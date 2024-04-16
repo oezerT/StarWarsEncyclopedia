@@ -11,7 +11,7 @@ import com.example.starwarsencyclopedia.data.local.remoteKeys.RemoteKeyEntity
 import com.example.starwarsencyclopedia.data.remote.StarWarsApi
 import com.example.starwarsencyclopedia.data.util.toEntity
 
-private const val FIRST_PAGE_INDEX = 1
+const val FIRST_PAGE_KEY = 1
 
 @OptIn(ExperimentalPagingApi::class)
 class PeopleRemoteMediator(
@@ -19,61 +19,39 @@ class PeopleRemoteMediator(
     private val starWarsApi: StarWarsApi,
 ) : RemoteMediator<Int, PersonEntity>() {
 
+    private val categoryDao = starWarsDb.personDao
+    private val remoteKeyDao = starWarsDb.remoteKeyDao
+    private val category = RemoteKeyEntity.Category.PEOPLE
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, PersonEntity>
-    ): MediatorResult {
-        return try {
-            val currentPage = when (loadType) {
-                LoadType.REFRESH -> FIRST_PAGE_INDEX
-                LoadType.PREPEND -> return MediatorResult.Success(
-                    endOfPaginationReached = true
-                )
-
-                LoadType.APPEND -> {
-                    val remoteKey = starWarsDb.withTransaction {
-                        starWarsDb.remoteKeyDao.remoteKeyByCategory(
-                            category = RemoteKeyEntity.Category.PEOPLE
-                        )
-                    }
-
-                    remoteKey.nextKey ?: return MediatorResult.Success(
-                        endOfPaginationReached = true
-                    )
-                }
-            }
-
-            val people = starWarsApi.getPeople(
-                page = currentPage
-            )
+    ) = try {
+        when (loadType) {
+            LoadType.REFRESH -> FIRST_PAGE_KEY
+            LoadType.PREPEND -> null
+            LoadType.APPEND -> remoteKeyDao.remoteKeyByCategory(category)
+        }?.let { currentPage ->
+            val response = starWarsApi.getPeople(currentPage)
+            val isLastPage = response.next == null
+            val nextPage = currentPage.inc().takeUnless { isLastPage }
+            val newRemoteKeyEntity = RemoteKeyEntity(category, nextPage)
+            val entities = response.results.map { it.toEntity() }
 
             starWarsDb.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    starWarsDb.remoteKeyDao.deleteByCategory(
-                        category = RemoteKeyEntity.Category.PEOPLE
-                    )
-                    starWarsDb.personDao.clearAll()
+                    remoteKeyDao.deleteByCategory(category)
+                    categoryDao.clearAll()
                 }
-
-                starWarsDb.remoteKeyDao.insertOrReplace(
-                    RemoteKeyEntity(
-                        category = RemoteKeyEntity.Category.PEOPLE,
-                        nextKey = currentPage.inc().takeIf { people.next != null }
-                    )
-                )
-
-                val peopleEntities = people.results.map {
-                    it.toEntity()
-                }
-                starWarsDb.personDao.upsertAll(peopleEntities)
+                remoteKeyDao.insertOrReplace(newRemoteKeyEntity)
+                categoryDao.upsertAll(entities)
             }
 
-            MediatorResult.Success(
-                endOfPaginationReached = people.next == null
-            )
+            MediatorResult.Success(isLastPage)
 
-        } catch (e: Exception) {
-            MediatorResult.Error(e)
-        }
+        } ?: MediatorResult.Success(true)
+
+    } catch (e: Exception) {
+        MediatorResult.Error(e)
     }
 }

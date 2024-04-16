@@ -1,8 +1,9 @@
 package com.example.starwarsencyclopedia.data.remote
 
-import com.example.starwarsencyclopedia.data.remote.films.FilmsResponse
-import com.example.starwarsencyclopedia.data.remote.people.PeopleResponse
-import com.example.starwarsencyclopedia.data.remote.planets.PlanetsResponse
+import com.example.starwarsencyclopedia.data.remote.model.CategoryResponse
+import com.example.starwarsencyclopedia.data.remote.model.FilmDto
+import com.example.starwarsencyclopedia.data.remote.model.PersonDto
+import com.example.starwarsencyclopedia.data.remote.model.PlanetDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,15 +12,16 @@ interface StarWarsApi {
     @GET("people")
     suspend fun getPeople(
         @Query("page") page: Int
-    ): PeopleResponse
+    ): CategoryResponse<PersonDto>
 
     @GET("films")
     suspend fun getFilms(
         @Query("page") page: Int
-    ): FilmsResponse
+    ): CategoryResponse<FilmDto>
 
     @GET("planets")
     suspend fun getPlanets(
         @Query("page") page: Int
-    ): PlanetsResponse
+    ): CategoryResponse<PlanetDto>
+
 }

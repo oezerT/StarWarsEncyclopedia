@@ -1,4 +1,4 @@
-package com.example.starwarsencyclopedia.data.remote.people
+package com.example.starwarsencyclopedia.data.remote.model
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName

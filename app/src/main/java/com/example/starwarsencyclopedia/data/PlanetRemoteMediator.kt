@@ -17,60 +17,39 @@ class PlanetRemoteMediator(
     private val starWarsApi: StarWarsApi,
 ) : RemoteMediator<Int, PlanetEntity>() {
 
+    private val categoryDao = starWarsDb.planetDao
+    private val remoteKeyDao = starWarsDb.remoteKeyDao
+    private val category = RemoteKeyEntity.Category.PLANETS
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, PlanetEntity>
-    ): MediatorResult {
-        return try {
-            val currentPage = when (loadType) {
-                LoadType.REFRESH -> 1
-                LoadType.PREPEND -> return MediatorResult.Success(
-                    endOfPaginationReached = true
-                )
-
-                LoadType.APPEND -> {
-                    val remoteKey = starWarsDb.withTransaction {
-                        starWarsDb.remoteKeyDao.remoteKeyByCategory(
-                            category = RemoteKeyEntity.Category.PLANETS
-                        )
-                    }
-
-                    remoteKey.nextKey ?: return MediatorResult.Success(
-                        endOfPaginationReached = true
-                    )
-                }
-            }
-
-            val planets = starWarsApi.getPlanets(
-                page = currentPage
-            )
+    ) = try {
+        when (loadType) {
+            LoadType.REFRESH -> FIRST_PAGE_KEY
+            LoadType.PREPEND -> null
+            LoadType.APPEND -> remoteKeyDao.remoteKeyByCategory(category)
+        }?.let { currentPage ->
+            val response = starWarsApi.getPlanets(currentPage)
+            val isLastPage = response.next == null
+            val nextPage = currentPage.inc().takeUnless { isLastPage }
+            val newRemoteKeyEntity = RemoteKeyEntity(category, nextPage)
+            val entities = response.results.map { it.toEntity() }
 
             starWarsDb.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    starWarsDb.remoteKeyDao.deleteByCategory(
-                        category = RemoteKeyEntity.Category.PLANETS
-                    )
-                    starWarsDb.planetDao.clearAll()
+                    remoteKeyDao.deleteByCategory(category)
+                    categoryDao.clearAll()
                 }
-                starWarsDb.remoteKeyDao.insertOrReplace(
-                    RemoteKeyEntity(
-                        category = RemoteKeyEntity.Category.PLANETS,
-                        nextKey = currentPage.inc().takeIf { planets.next != null }
-                    )
-                )
-
-                val planetEntities = planets.results.map {
-                    it.toEntity()
-                }
-                starWarsDb.planetDao.upsertAll(planetEntities)
+                remoteKeyDao.insertOrReplace(newRemoteKeyEntity)
+                categoryDao.upsertAll(entities)
             }
 
-            MediatorResult.Success(
-                endOfPaginationReached = planets.next == null
-            )
+            MediatorResult.Success(isLastPage)
 
-        } catch (e: Exception) {
-            MediatorResult.Error(e)
-        }
+        } ?: MediatorResult.Success(true)
+
+    } catch (e: Exception) {
+        MediatorResult.Error(e)
     }
 }

@@ -1,7 +1,7 @@
 package com.example.starwarsencyclopedia.data.util
 
 import com.example.starwarsencyclopedia.data.local.people.PersonEntity
-import com.example.starwarsencyclopedia.data.remote.people.PersonDto
+import com.example.starwarsencyclopedia.data.remote.model.PersonDto
 import com.example.starwarsencyclopedia.domain.model.Person
 
 fun PersonDto.toEntity() = PersonEntity(

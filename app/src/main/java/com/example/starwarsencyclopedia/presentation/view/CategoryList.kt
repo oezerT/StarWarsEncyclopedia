@@ -23,10 +23,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.starwarsencyclopedia.domain.model.Film
 import com.example.starwarsencyclopedia.domain.model.Person
 import com.example.starwarsencyclopedia.domain.model.Planet
-import com.example.starwarsencyclopedia.presentation.view.films.FilmItem
-import com.example.starwarsencyclopedia.presentation.view.people.PersonItem
-import com.example.starwarsencyclopedia.presentation.view.people.lukeSkywalker
-import com.example.starwarsencyclopedia.presentation.view.planets.PlanetItem
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
