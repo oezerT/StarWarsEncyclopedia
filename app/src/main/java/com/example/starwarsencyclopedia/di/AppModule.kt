@@ -8,10 +8,12 @@ import androidx.room.Room
 import com.example.starwarsencyclopedia.data.FilmRemoteMediator
 import com.example.starwarsencyclopedia.data.PeopleRemoteMediator
 import com.example.starwarsencyclopedia.data.PlanetRemoteMediator
+import com.example.starwarsencyclopedia.data.SpeciesRemoteMediator
 import com.example.starwarsencyclopedia.data.local.StarWarsDatabase
 import com.example.starwarsencyclopedia.data.local.films.FilmEntity
 import com.example.starwarsencyclopedia.data.local.people.PersonEntity
 import com.example.starwarsencyclopedia.data.local.planets.PlanetEntity
+import com.example.starwarsencyclopedia.data.local.species.SpeciesEntity
 import com.example.starwarsencyclopedia.data.remote.StarWarsApi
 import dagger.Module
 import dagger.Provides
@@ -111,6 +113,25 @@ object AppModule {
             ),
             pagingSourceFactory = {
                 starWarsDb.planetDao.pagingSource()
+            }
+        )
+    }
+
+    @Provides
+    fun provideSpeciesPager(
+        starWarsDb: StarWarsDatabase,
+        starWarsApi: StarWarsApi
+    ): Pager<Int, SpeciesEntity> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = SWAPI_PAGE_SIZE
+            ),
+            remoteMediator = SpeciesRemoteMediator(
+                starWarsDb = starWarsDb,
+                starWarsApi = starWarsApi
+            ),
+            pagingSourceFactory = {
+                starWarsDb.speciesDao.pagingSource()
             }
         )
     }

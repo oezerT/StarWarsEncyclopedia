@@ -11,6 +11,7 @@ data class RemoteKeyEntity(
     enum class Category {
         FILMS,
         PEOPLE,
-        PLANETS
+        PLANETS,
+        SPECIES,
     }
 }

@@ -8,6 +8,7 @@ import androidx.paging.map
 import com.example.starwarsencyclopedia.data.local.films.FilmEntity
 import com.example.starwarsencyclopedia.data.local.people.PersonEntity
 import com.example.starwarsencyclopedia.data.local.planets.PlanetEntity
+import com.example.starwarsencyclopedia.data.local.species.SpeciesEntity
 import com.example.starwarsencyclopedia.data.util.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
@@ -17,7 +18,8 @@ import javax.inject.Inject
 class StarWarsEncyclopediaViewModel @Inject constructor(
     peoplePager: Pager<Int, PersonEntity>,
     filmsPager: Pager<Int, FilmEntity>,
-    planetsPager: Pager<Int, PlanetEntity>
+    planetsPager: Pager<Int, PlanetEntity>,
+    speciesPager: Pager<Int, SpeciesEntity>,
 ) : ViewModel() {
     val peoplePagingFlow = peoplePager.flow.map { pagingData ->
         pagingData.map {
@@ -32,6 +34,12 @@ class StarWarsEncyclopediaViewModel @Inject constructor(
     }.cachedIn(viewModelScope)
 
     val planetsPagingFlow = planetsPager.flow.map { pagingData ->
+        pagingData.map {
+            it.toDomain()
+        }
+    }.cachedIn(viewModelScope)
+
+    val speciesPagingFlow = speciesPager.flow.map { pagingData ->
         pagingData.map {
             it.toDomain()
         }

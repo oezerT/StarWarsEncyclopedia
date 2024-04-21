@@ -21,9 +21,10 @@ fun CategoryTabs() {
     val peopleData = viewModel.peoplePagingFlow.collectAsLazyPagingItems()
     val filmsData = viewModel.filmsPagingFlow.collectAsLazyPagingItems()
     val planetsData = viewModel.planetsPagingFlow.collectAsLazyPagingItems()
+    val speciesData = viewModel.speciesPagingFlow.collectAsLazyPagingItems()
 
     var state by remember { mutableIntStateOf(0) }
-    val titles = listOf("Films", "People", "Planets")
+    val titles = listOf("Films", "People", "Planets", "Species")
     Column {
         TabRow(selectedTabIndex = state) {
             titles.forEachIndexed { index, title ->
@@ -39,6 +40,7 @@ fun CategoryTabs() {
             0 -> CategoryList(category = filmsData as LazyPagingItems<*>)
             1 -> CategoryList(category = peopleData as LazyPagingItems<*>)
             2 -> CategoryList(category = planetsData as LazyPagingItems<*>)
+            3 -> CategoryList(category = speciesData as LazyPagingItems<*>)
         }
     }
 }

@@ -23,6 +23,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.starwarsencyclopedia.domain.model.Film
 import com.example.starwarsencyclopedia.domain.model.Person
 import com.example.starwarsencyclopedia.domain.model.Planet
+import com.example.starwarsencyclopedia.domain.model.Species
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -58,6 +59,7 @@ fun CategoryList(
                             is Film -> FilmItem(film = it)
                             is Person -> PersonItem(person = it)
                             is Planet -> PlanetItem(planet = it)
+                            is Species -> SpeciesItem(species = it)
                         }
                     }
                 }

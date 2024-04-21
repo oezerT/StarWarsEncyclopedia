@@ -4,6 +4,7 @@ import com.example.starwarsencyclopedia.data.remote.model.CategoryResponse
 import com.example.starwarsencyclopedia.data.remote.model.FilmDto
 import com.example.starwarsencyclopedia.data.remote.model.PersonDto
 import com.example.starwarsencyclopedia.data.remote.model.PlanetDto
+import com.example.starwarsencyclopedia.data.remote.model.SpeciesDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -24,4 +25,8 @@ interface StarWarsApi {
         @Query("page") page: Int
     ): CategoryResponse<PlanetDto>
 
+    @GET("species")
+    suspend fun getSpecies(
+        @Query("page") page: Int
+    ): CategoryResponse<SpeciesDto>
 }
