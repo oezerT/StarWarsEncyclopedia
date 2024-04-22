@@ -27,7 +27,7 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
 
-private const val SWAPI_BASE_URL = "https://swapi.dev/api/"
+private const val SWAPI_BASE_URL = "https://swapi.py4e.com/api/"
 private const val SWAPI_PAGE_SIZE = 10
 private const val DB_NAME = "starwars.db"
 
