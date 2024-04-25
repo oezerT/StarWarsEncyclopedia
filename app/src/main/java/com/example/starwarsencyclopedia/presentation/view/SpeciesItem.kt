@@ -35,17 +35,19 @@ fun SpeciesItem(species: Species) {
 @Preview
 fun SpeciesItemPreview() {
     SpeciesItem(
-        species = Species(
-            name = "Wookie",
-            classification = "mammal",
-            designation = "sentient",
-            averageHeight = "210",
-            skinColors = "gray",
-            hairColors = "black, brown",
-            eyeColors = "blue, green, yellow, brown, golden, red",
-            averageLifespan = "400",
-            language = "Shyriiwook",
-        )
+        species = wookie
     )
 }
+
+val wookie = Species(
+    name = "Wookie",
+    classification = "mammal",
+    designation = "sentient",
+    averageHeight = "210",
+    skinColors = "gray",
+    hairColors = "black, brown",
+    eyeColors = "blue, green, yellow, brown, golden, red",
+    averageLifespan = "400",
+    language = "Shyriiwook",
+)
 

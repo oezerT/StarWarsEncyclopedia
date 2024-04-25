@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -28,14 +29,16 @@ import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun CategoryList(
-    category: LazyPagingItems<*>
+    modifier: Modifier,
+    category: LazyPagingItems<*>,
+    listState: LazyListState,
 ) {
     (category.loadState.refresh as? LoadState.Error)?.error?.message?.let {
         ErrorToast(it)
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
     ) {
@@ -48,7 +51,8 @@ fun CategoryList(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(15.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                contentPadding = PaddingValues(15.dp)
+                contentPadding = PaddingValues(15.dp),
+                state = listState,
             ) {
                 items(
                     count = category.itemCount,
@@ -90,6 +94,7 @@ private fun ErrorToast(errorMessage: String) {
 @Preview
 fun CategoryListPreview() {
     CategoryList(
+        Modifier,
         flowOf(
             PagingData.from(
                 data = listOf(
@@ -103,6 +108,7 @@ fun CategoryListPreview() {
                     prepend = LoadState.NotLoading(true),
                 ),
             )
-        ).collectAsLazyPagingItems() as LazyPagingItems<*>
+        ).collectAsLazyPagingItems() as LazyPagingItems<*>,
+        LazyListState()
     )
 }
