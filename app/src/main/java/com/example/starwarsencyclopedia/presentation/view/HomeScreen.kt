@@ -2,11 +2,6 @@ package com.example.starwarsencyclopedia.presentation.view
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -18,6 +13,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -28,6 +24,7 @@ import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.starwarsencyclopedia.R
 import com.example.starwarsencyclopedia.domain.model.Film
 import com.example.starwarsencyclopedia.domain.model.Person
 import com.example.starwarsencyclopedia.domain.model.Planet
@@ -120,11 +117,11 @@ private fun BottomBar(
             NavigationBarItem(
                 icon = {
                     Icon(
-                        imageVector = when (it) {
-                            Screens.FILMS -> Icons.Filled.Star
-                            Screens.PEOPLE -> Icons.Default.Person
-                            Screens.PLANETS -> Icons.Default.LocationOn
-                            Screens.SPECIES -> Icons.Default.Face
+                        painter = when (it) {
+                            Screens.FILMS -> painterResource(id = R.drawable.icon_film)
+                            Screens.PEOPLE -> painterResource(id = R.drawable.icon_people)
+                            Screens.PLANETS -> painterResource(id = R.drawable.icon_planet)
+                            Screens.SPECIES -> painterResource(id = R.drawable.icon_species)
                         },
                         contentDescription = it.name
                     )
