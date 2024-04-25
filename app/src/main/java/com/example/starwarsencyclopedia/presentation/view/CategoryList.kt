@@ -98,9 +98,9 @@ fun CategoryListPreview() {
         flowOf(
             PagingData.from(
                 data = listOf(
-                    lukeSkywalker,
-                    lukeSkywalker,
-                    lukeSkywalker
+                    aNewHope,
+                    aNewHope,
+                    aNewHope
                 ),
                 sourceLoadStates = LoadStates(
                     refresh = LoadState.NotLoading(true),
