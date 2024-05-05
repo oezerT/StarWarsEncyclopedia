@@ -3,3 +3,4 @@ Native Android app displaying data from https://swapi.py4e.com/ using:
   - Paging3 with Room for offline caching (RemoteMediator) and Paging-Compose
   - Hilt
   - Jetpack Compose
+  - Jetpack navigation
